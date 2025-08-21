@@ -1,0 +1,15 @@
+{
+  "name": "backend-ferreteria-anner-2025",
+  "version": "1.0.0",
+  "description": "backend de ferreteria Monge.",
+  "license": "ISC",
+  "author": "Anner Monge Cruz",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
