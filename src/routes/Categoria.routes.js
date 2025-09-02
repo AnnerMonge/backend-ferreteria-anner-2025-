@@ -1,5 +1,9 @@
 
 import { Router } from 'express';
+import  {obtenerCategorias} from '../Controller/Categoria.controller.js';
 const router = Router();
-// Rutas
-export default router;
+
+// Ruta para obtener todas las categorías
+router.get('/categorias', obtenerCategorias);
+
+export default router; // Exportar el router para usarlo en app.js
