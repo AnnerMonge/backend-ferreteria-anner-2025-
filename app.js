@@ -3,15 +3,15 @@ import express from 'express';
 import cors from 'cors';
 
 //Importar las rutas
-import rutasCategorias from './src/routes/Categoria.routes.js';
+import rutasCategorias from './src/routes/Categorias.routes.js';
 import rutasClientes from './src/routes/Clientes.routes.js';
 import rutasCompras from './src/routes/Compras.routes.js';
-import rutasDetalles_compra from './src/routes/Detalles_compra.routes.js';
-import rutasProductos from './src/routes/Producto.routes.js';
+import rutasDetalles_compras from './src/routes/Detalles_compras.routes.js';
+import rutasProductos from './src/routes/Productos.routes.js';
 import rutasEmpleados from './src/routes/empleados.routes.js';
-import rutasdetalles_ventas from './src/routes/detalles_venta.routes.js';
+import rutasdetalles_ventas from './src/routes/detalles_ventas.routes.js';
 import rutasVentas from './src/routes/Ventas.routes.js';
-import rutasUsuario from './src/routes/Usuario.routes.js';
+import rutasUsuario from './src/routes/Usuarios.routes.js';
 
 
 
@@ -32,7 +32,7 @@ app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use('/api', rutasCategorias);
 app.use('/api', rutasClientes);
 app.use('/api', rutasCompras);
-app. use('/api', rutasDetalles_compra);
+app. use('/api', rutasDetalles_compras);
 app. use('/api', rutasProductos);
 app. use('/api', rutasEmpleados);
 app. use('/api', rutasdetalles_ventas);
