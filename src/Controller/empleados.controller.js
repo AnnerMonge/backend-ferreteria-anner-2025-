@@ -55,3 +55,24 @@ export const registrarEmpleado = async (req, res) => {
     });
   }  
 };
+
+//Controlador de eliminación de datos de empleados
+export const eliminarEmpleado = async (req, res) => {
+  try {
+    const id_empleado = req.params.id_empleado;
+    const [result] = await pool.query("DELETE FROM empleados WHERE id_empleado = ?", [id_empleado]
+    ); 
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        mensaje: `Error al eliminar los datos. ID ${id_empleado} no encontrado.`,
+      });
+    }
+    //repuesta sin contenido para indicar que la eliminación fue exitosa
+    res.status(204).send();
+  } catch (error) {
+    return res.status(500).json({
+      mensaje: "Ha ocurrido un error al eliminar el empleado.",
+      error: error,
+    });
+  }
+};

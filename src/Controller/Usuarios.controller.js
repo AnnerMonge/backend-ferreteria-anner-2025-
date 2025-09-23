@@ -52,3 +52,24 @@ export const registrarUsuario = async (req, res) => {
     });
   }
 };
+//Controlador de eliminación de datos de Usuarios
+export const eliminarUsuario = async (req, res) => {
+  try {
+    const id_usuario = req.params.id_usuario;
+    const [result] = await pool.query("DELETE FROM Usuarios WHERE id_usuario = ?", [
+      id_usuario,
+    ]);
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        mensaje: `Error al eliminar los datos. ID ${id_usuario} no encontrado.`,
+      });
+    }
+       //repuesta sin contenido para indicar que la eliminación fue exitosa
+    res.status(204).send();
+  } catch (error) {
+    return res.status(500).json({
+      mensaje: "Ha ocurrido un error al eliminar el Usuario.",
+      error: error,
+    });
+  }
+};

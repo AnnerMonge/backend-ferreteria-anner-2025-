@@ -48,3 +48,23 @@ export const registrarCliente = async (req, res) => {
     });
   } 
 };
+
+//Controlador de eliminación de datos de clientes
+export const eliminarCliente = async (req, res) => {
+  try {
+    const id_cliente = req.params.id_cliente;
+    const [result] = await pool.query("DELETE FROM Clientes WHERE id_cliente = ?", [id_cliente]
+    );
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        mensaje: `Error al eliminar los datos. ID ${id_cliente} no encontrado.`,
+      });
+    }
+    //repuesta sin contenido para indicar que la eliminación fue exitosa
+    res.status(204).send();
+  } catch (error) {
+    return res.status(500).json({
+      mensaje: "Ha ocurrido un error al eliminar los datos del cliente.",
+    });
+  }
+};

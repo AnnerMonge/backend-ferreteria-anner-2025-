@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { obtenerdetallesventas, obtenerdetalleventa,registrardetallesventas  } from '../Controller/detalles_ventas.controller.js';
+import { obtenerdetallesventas, obtenerdetalleventa,registrardetallesventas, eliminardetalleventa  } from '../Controller/detalles_ventas.controller.js';
 
 const router = Router();
 
@@ -11,5 +11,8 @@ router.get('/detalle_venta/:id_detalle_venta', obtenerdetalleventa);
 
 //rutas para crear un detalle_venta
 router.post('/registrardetalles_venta', registrardetallesventas);
+
+// rutas para eliminar un detalle_venta
+ router.delete('/eliminardetalle_venta/:id_detalle_venta', eliminardetalleventa);
 
 export default router; // Exportar el router para usarlo en app.js

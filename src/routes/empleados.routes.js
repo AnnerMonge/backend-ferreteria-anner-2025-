@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { obtenerEmpleados, obtenerEmpleado, registrarEmpleado } from '../Controller/empleados.controller.js';
+import { obtenerEmpleados, obtenerEmpleado, registrarEmpleado, eliminarEmpleado } from '../Controller/empleados.controller.js';
 
 const router = Router();
 
@@ -11,5 +11,8 @@ router.get('/empleado/:id_empleado', obtenerEmpleado);
 
 //ruta para crear un nuevo empleado
 router.post('/registrarempleado', registrarEmpleado);
+
+//rutas para eliminar un empleado
+ router.delete('/eliminarempleado/:id_empleado', eliminarEmpleado);
 
 export default router; // Exportar el router para usarlo en app.js

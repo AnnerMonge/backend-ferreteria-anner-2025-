@@ -50,3 +50,24 @@ export const registrarCategoria = async (req, res) => {
     });
   }
 };
+
+//Controlador de eliminación de datos de categotorías
+export const eliminarCategoria = async (req, res) => {
+  try {
+    const id_categoria = req.params.id_categoria;
+    const [result] = await pool.query("DELETE FROM Categorias WHERE id_categoria = ?", [id_categoria]
+    );
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        mensaje: `Error al eliminar la categoria. ID ${id_categoria} no encontrado.`,
+      });
+    }
+    //repuesta sin contenido para indicar que la eliminación fue exitosa
+    res.status(204).send();
+  } catch (error) {
+    return res.status(500).json({
+      mensaje: "Ha ocurrido un error al eliminar la categoría.", 
+      error: error,
+    });
+  }
+};
