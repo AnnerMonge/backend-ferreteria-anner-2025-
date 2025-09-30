@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { obtenerClientes, obtenerCliente, registrarCliente, eliminarCliente } from  '../Controller/Clientes.controller.js';
+import { obtenerClientes, obtenerCliente, registrarCliente, eliminarCliente,  actualizarClientePatch } from  '../Controller/Clientes.controller.js';
 
 const router = Router();
 
@@ -15,4 +15,7 @@ router.post('/registrarcliente', registrarCliente);
 //rutas para eliminar un cliente
  router.delete('/eliminarcliente/:id_cliente', eliminarCliente);
 
+ //ruta para actualizar un cliente
+ router. patch('/actualizarClientePatch/:id_cliente',actualizarClientePatch);
+ 
 export default router; // Exportar el router para usarlo en app.js

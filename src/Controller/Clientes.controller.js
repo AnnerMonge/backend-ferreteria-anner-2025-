@@ -68,3 +68,28 @@ export const eliminarCliente = async (req, res) => {
     });
   }
 };
+
+// Actualizar un Cliente
+export const actualizarClientePatch = async (req, res) => {
+  try {
+    const {id_cliente} = req.params;
+    const datos = req.body;
+    const [result] = await pool.query
+    ("UPDATE Clientes SET ? WHERE id_cliente = ?", [datos, id_cliente ]);
+     if (result.affectedRows === 0) {
+      return res.status(404).json({
+        mensaje:' Cliente con . ID ${id_cliente} no encontrado.'
+      });
+    }
+
+    res.status(200).json({
+      mensaje: 'Cliente con ID ${id_cliente} actualizado correctamente.'
+    });
+  } catch (error) {
+    res.status(500).json({
+      mensaje: 'Ha ocurrido un error al actualizar el cliente',
+      error: error
+    });
+  }
+};
+

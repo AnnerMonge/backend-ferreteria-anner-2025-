@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { obtenerEmpleados, obtenerEmpleado, registrarEmpleado, eliminarEmpleado } from '../Controller/empleados.controller.js';
+import { obtenerEmpleados, obtenerEmpleado, registrarEmpleado, eliminarEmpleado, actualizarEmpleadoPatch } from '../Controller/empleados.controller.js';
 
 const router = Router();
 
@@ -14,5 +14,8 @@ router.post('/registrarempleado', registrarEmpleado);
 
 //rutas para eliminar un empleado
  router.delete('/eliminarempleado/:id_empleado', eliminarEmpleado);
+
+ //ruta para actualizar un empleado parcialmente (PATCH)
+router.patch ('/actualizarempleadoPatch/:id_empleado',actualizarEmpleadoPatch)
 
 export default router; // Exportar el router para usarlo en app.js

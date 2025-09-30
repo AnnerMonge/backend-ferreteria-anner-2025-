@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { obtenerProductos, obtenerProducto, registrarProducto, eliminarProducto } from '../Controller/Productos.controller.js';
+import { obtenerProductos, obtenerProducto, registrarProducto, eliminarProducto, actualizarProductoPatch } from '../Controller/Productos.controller.js';
 
 const router = Router();
 
@@ -14,6 +14,9 @@ router.get('/Producto/:id_producto', obtenerProducto);
 
  //ruta para eliminar un Producto por ID
  router.delete('/eliminarproducto/:id_producto', eliminarProducto);
+
+ //ruta para actualizar un Producto parcialmente (PATCH)
+ router.patch ('/actualizarProductoPatch/:id_producto',actualizarProductoPatch)
 
 
 export default router; // Exportar el router para usarlo en app.js

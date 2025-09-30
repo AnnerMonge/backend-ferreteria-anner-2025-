@@ -76,3 +76,29 @@ export const eliminarEmpleado = async (req, res) => {
     });
   }
 };
+
+// Actualizar un empleado parcialmente (PATCH)
+export const actualizarEmpleadoPatch = async (req, res) => {
+  try {
+    const id_empleado = req.params;
+    const datos = req.body;
+    const [result] = await pool.query(
+      'UPDATE empleados SET ? WHERE id_empleado = ?',
+      [datos, id_empleado ]
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        mensaje:' empleado con . ID ${id_empleado} no encontrado.'
+      });
+    }
+    res.status(200).json({
+      mensaje: 'empleado con ID ${id_empleado} actualizada correctamente.'
+    });
+  } catch (error) {
+    res.status(500).json({
+      mensaje: 'Ha ocurrido un error al actualizar el empleado.',
+      error: error
+    });
+  }
+};

@@ -71,3 +71,36 @@ export const eliminarCategoria = async (req, res) => {
     });
   }
 };
+
+
+
+//  Controlador para Actualizar Parcialmenete una Categoria por id 
+export const actualizarCategoriaPatch = async (req, res) => {
+  try {
+    const {id_categoria} = req.params;
+    const datos  = req.body;
+
+    const [result] = await pool.query(
+      'UPDATE categorias SET ? WHERE id_categoria = ?',
+      [datos,  id_categoria ]
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        mensaje:' Categoria con . ID ${id_categoria} no encontrado.'
+      });
+    }
+
+    res.status(200).json({
+      mensaje: 'Categoria con ID ${id_categoria} actualizada correctamente.'
+    });
+  } catch (error) {
+    res.status(500).json({
+      mensaje: 'Ha ocurrido un error al actualizar la Categoria.',
+      error: error
+    });
+  }
+};
+
+
+
