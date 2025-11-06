@@ -34,9 +34,9 @@ export const obtenerEmpleado = async (req, res) => {
 // Crear un nuevo empleado
 export const registrarEmpleado = async (req, res) => {
   try { 
-    const {  primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, celular,  cargo, fecha_contratacion } = req.body;
+    const {primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, celular,  cargo, fecha_contratacion } = req.body;
     const [result] = await pool.query(
-      "INSERT INTO empleados ( primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, celular,  cargo, fecha_contratacion) VALUES (?, ?, ?, ?, ?, ?, ?)",   
+      "INSERT INTO empleados (primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, celular,  cargo, fecha_contratacion) VALUES (?, ?, ?, ?, ?, ?, ?)",   
       [ primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, celular,  cargo, fecha_contratacion]);
     res.json({
       id_empleado: result.insertId,
@@ -76,24 +76,25 @@ export const eliminarEmpleado = async (req, res) => {
     });
   }
 };
-
-// Actualizar un empleado parcialmente (PATCH)
+ // Actualizar un empleado parcialmente (PATCH)
 export const actualizarEmpleadoPatch = async (req, res) => {
   try {
-    const id_empleado = req.params;
+    const { id_empleado } = req.params;
     const datos = req.body;
+
     const [result] = await pool.query(
       'UPDATE empleados SET ? WHERE id_empleado = ?',
-      [datos, id_empleado ]
+      [datos, id_empleado]
     );
 
     if (result.affectedRows === 0) {
       return res.status(404).json({
-        mensaje:' empleado con . ID ${id_empleado} no encontrado.'
+        mensaje: `Empleado con ID ${id_empleado} no encontrado.`
       });
     }
+
     res.status(200).json({
-      mensaje: 'empleado con ID ${id_empleado} actualizada correctamente.'
+      mensaje: `Empleado con ID ${id_empleado} actualizado correctamente.`
     });
   } catch (error) {
     res.status(500).json({

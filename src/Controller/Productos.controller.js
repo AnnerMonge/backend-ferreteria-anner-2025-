@@ -81,24 +81,27 @@ export const eliminarProducto = async (req, res) => {
 // Actualizar un Producto parcialmente (PATCH)
 export const actualizarProductoPatch = async (req, res) => {
   try {
-    const id_producto = req.params;
+    const { id_producto } = req.params; // ✅ corregido
     const datos = req.body;
-    const [result] = await pool.query('UPDATE Productos SET ? WHERE id_producto = ?',[datos, id_producto ]
+
+    const [result] = await pool.query(
+      'UPDATE productos SET ? WHERE id_producto = ?',
+      [datos, id_producto]
     );
 
     if (result.affectedRows === 0) {
       return res.status(404).json({
-        mensaje:' Producto con . ID ${id_producto} no encontrado.'
+        mensaje: `Producto con ID ${id_producto} no encontrado.`, // ✅ backticks
       });
     }
+
     res.status(200).json({
-      mensaje: 'Producto con ID ${id_producto} actualizada correctamente.'
+      mensaje: `Producto con ID ${id_producto} actualizado correctamente.`, // ✅ backticks
     });
-  }
-    catch (error) {
+  } catch (error) {
     res.status(500).json({
-      mensaje: 'Ha ocurrido un error al actualizar el Producto.',
-      error: error
+      mensaje: 'Ha ocurrido un error al actualizar el producto.',
+      error: error.message,
     });
   }
 };

@@ -77,7 +77,7 @@ export const eliminarUsuario = async (req, res) => {
 // Actualizar un Usuario parcialmente (PATCH)
 export const actualizarUsuarioPatch = async (req, res) => {
   try {
-    const id_usuario = req.params.id_usuario;
+    const {id_usuario} = req.params;
     const datos = req.body;
     const [result] = await pool.query(
       "UPDATE Usuarios SET ? WHERE id_usuario = ?",
