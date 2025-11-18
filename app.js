@@ -12,7 +12,7 @@ import rutasEmpleados from './src/routes/empleados.routes.js';
 import rutasdetalles_ventas from './src/routes/detalles_ventas.routes.js';
 import rutasVentas from './src/routes/Ventas.routes.js';
 import rutasUsuario from './src/routes/Usuarios.routes.js';
-
+ 
 
 
 // Crear la aplicación de Express

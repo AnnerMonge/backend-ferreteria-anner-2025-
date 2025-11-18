@@ -94,11 +94,12 @@ export const actualizarEmpleadoPatch = async (req, res) => {
     }
 
     res.status(200).json({
-      mensaje: `Empleado con ID ${id_empleado} actualizado correctamente.`
+      mensaje: `Empleado con ID ${id_empleado} actualizado correctamente.`, 
     });
+
   } catch (error) {
     res.status(500).json({
-      mensaje: 'Ha ocurrido un error al actualizar el empleado.',
+      mensaje: `Ha ocurrido un error al actualizar el empleado.`,
       error: error
     });
   }

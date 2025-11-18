@@ -17,8 +17,10 @@ export const obtenerClientes = async (req, res) => {
 export const obtenerCliente = async (req, res) => {
   try {
     const id_cliente = req.params.id_cliente;
-    const [result] = await pool.query( "SELECT * FROM Clientes WHERE id_cliente= ?", [id_cliente]
-    ); 
+    const [result] = await pool.query(
+      "SELECT * FROM Clientes WHERE id_cliente= ?",
+      [id_cliente]
+    );
     if (result.length <= 0) {
       return res.status(404).json({
         mensaje: `Error al leer los datos. ID ${id_cliente} no encontrado.`,
@@ -30,15 +32,31 @@ export const obtenerCliente = async (req, res) => {
     return res.status(500).json({
       mensaje: "Ha ocurrido un error al leer los datos de los clientes.",
     });
-  }  
+  }
 };
 // Registrar un nuevo Cliente
 export const registrarCliente = async (req, res) => {
   try {
-    const { primer_nombre, segundo_nombre, primer_apellido, segundo_apellido,celular,direccion, cedula   } = req.body;
+    const {
+      primer_nombre,
+      segundo_nombre,
+      primer_apellido,
+      segundo_apellido,
+      celular,
+      direccion,
+      cedula,
+    } = req.body;
     const [result] = await pool.query(
       "INSERT INTO clientes (primer_nombre, segundo_nombre, primer_apellido, segundo_apellido,celular,direccion, cedula) VALUES (?, ?, ?, ?,?,?,?)",
-      [primer_nombre, segundo_nombre, primer_apellido, segundo_apellido,celular,direccion,cedula  ]
+      [
+        primer_nombre,
+        segundo_nombre,
+        primer_apellido,
+        segundo_apellido,
+        celular,
+        direccion,
+        cedula,
+      ]
     );
     res.status(201).json({ id_cliente: result.insertId });
   } catch (error) {
@@ -46,14 +64,16 @@ export const registrarCliente = async (req, res) => {
       mensaje: "Ha ocurrido un error al registrar el cliente.",
       error: error,
     });
-  } 
+  }
 };
 
 //Controlador de eliminación de datos de clientes
 export const eliminarCliente = async (req, res) => {
   try {
     const id_cliente = req.params.id_cliente;
-    const [result] = await pool.query("DELETE FROM Clientes WHERE id_cliente = ?", [id_cliente]
+    const [result] = await pool.query(
+      "DELETE FROM Clientes WHERE id_cliente = ?",
+      [id_cliente]
     );
     if (result.affectedRows === 0) {
       return res.status(404).json({
@@ -72,24 +92,25 @@ export const eliminarCliente = async (req, res) => {
 // Actualizar un Cliente
 export const actualizarClientePatch = async (req, res) => {
   try {
-    const {id_cliente} = req.params;
+    const { id_cliente } = req.params;
     const datos = req.body;
-    const [result] = await pool.query
-    ("UPDATE Clientes SET ? WHERE id_cliente = ?", [datos, id_cliente ]);
-     if (result.affectedRows === 0) {
+    const [result] = await pool.query(
+      "UPDATE Clientes SET ? WHERE id_cliente = ?",
+      [datos, id_cliente]
+    );
+    if (result.affectedRows === 0) {
       return res.status(404).json({
-        mensaje:' Cliente con . ID ${id_cliente} no encontrado.'
+        mensaje: " Cliente con . ID ${id_cliente} no encontrado.",
       });
     }
 
     res.status(200).json({
-      mensaje: 'Cliente con ID ${id_cliente} actualizado correctamente.'
+      mensaje: "Cliente con ID ${id_cliente} actualizado correctamente.",
     });
   } catch (error) {
     res.status(500).json({
-      mensaje: 'Ha ocurrido un error al actualizar el cliente',
-      error: error
+      mensaje: "Ha ocurrido un error al actualizar el cliente",
+      error: error,
     });
   }
 };
-

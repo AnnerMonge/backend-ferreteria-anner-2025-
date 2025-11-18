@@ -17,8 +17,10 @@ export const obtenerProductos = async (req, res) => {
 export const obtenerProducto = async (req, res) => {
   try {
     const id_producto = req.params.id_producto;
-    const [result] = await pool.query("SELECT * FROM Productos WHERE id_producto= ?",[id_producto]
-    );  
+    const [result] = await pool.query(
+      "SELECT * FROM Productos WHERE id_producto= ?",
+      [id_producto]
+    );
     if (result.length <= 0) {
       return res.status(404).json({
         mensaje: `Error al leer los datos. ID ${id_producto} no encontrado.`,
@@ -35,19 +37,33 @@ export const obtenerProducto = async (req, res) => {
 // Crear un nuevo Producto
 export const registrarProducto = async (req, res) => {
   try {
-    const { nombre_producto, descripcion_producto,id_categoria, precio_unitario, stock, imagen } = req.body;  
+    const {
+      nombre_producto,
+      descripcion_producto,
+      id_categoria,
+      precio_unitario,
+      stock,
+      imagen,
+    } = req.body;
     const [result] = await pool.query(
       "INSERT INTO Productos (nombre_producto, descripcion_producto,id_categoria, precio_unitario, stock, imagen) VALUES (?, ?, ?, ?, ?, ?)",
-      [nombre_producto, descripcion_producto, id_categoria ,precio_unitario, stock, imagen]  
+      [
+        nombre_producto,
+        descripcion_producto,
+        id_categoria,
+        precio_unitario,
+        stock,
+        imagen,
+      ]
     );
     res.json({
       id_producto: result.insertId,
-      nombre_producto, 
-      descripcion_producto, 
+      nombre_producto,
+      descripcion_producto,
       id_categoria,
       precio_unitario,
-       stock, 
-       imagen
+      stock,
+      imagen,
     });
   } catch (error) {
     return res.status(500).json({
@@ -61,7 +77,9 @@ export const registrarProducto = async (req, res) => {
 export const eliminarProducto = async (req, res) => {
   try {
     const id_producto = req.params.id_producto;
-    const [result] = await pool.query("DELETE FROM Productos WHERE id_producto = ?", [id_producto]
+    const [result] = await pool.query(
+      "DELETE FROM Productos WHERE id_producto = ?",
+      [id_producto]
     );
     if (result.affectedRows <= 0) {
       return res.status(404).json({
@@ -85,7 +103,7 @@ export const actualizarProductoPatch = async (req, res) => {
     const datos = req.body;
 
     const [result] = await pool.query(
-      'UPDATE productos SET ? WHERE id_producto = ?',
+      "UPDATE productos SET ? WHERE id_producto = ?",
       [datos, id_producto]
     );
 
@@ -100,7 +118,7 @@ export const actualizarProductoPatch = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({
-      mensaje: 'Ha ocurrido un error al actualizar el producto.',
+      mensaje: "Ha ocurrido un error al actualizar el producto.",
       error: error.message,
     });
   }

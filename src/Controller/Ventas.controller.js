@@ -1,6 +1,6 @@
 import { pool } from "../../db_connection.js";
 
-// Obtener todas las ventas 
+// Obtener todas las ventas
 export const obtenerVentas = async (req, res) => {
   try {
     const [result] = await pool.query("SELECT * FROM Ventas");
@@ -17,7 +17,9 @@ export const obtenerVentas = async (req, res) => {
 export const obtenerVenta = async (req, res) => {
   try {
     const id_venta = req.params.id_venta;
-    const [result] = await pool.query("SELECT * FROM Ventas WHERE id_venta= ?",[id_venta]
+    const [result] = await pool.query(
+      "SELECT * FROM Ventas WHERE id_venta= ?",
+      [id_venta]
     );
     if (result.length <= 0) {
       return res.status(404).json({
@@ -34,32 +36,33 @@ export const obtenerVenta = async (req, res) => {
 // Crear una nueva venta
 export const registrarVenta = async (req, res) => {
   try {
-    const { id_cliente,  id_empleado, fecha_venta,total_venta } = req.body;
+    const { id_cliente, id_empleado, fecha_venta, total_venta } = req.body;
     const [result] = await pool.query(
-      "INSERT INTO Ventas (id_cliente,  id_empleado, fecha_venta,total_venta) VALUES (?, ?, ?,?)", 
-      [id_cliente,  id_empleado, fecha_venta,total_venta]
+      "INSERT INTO Ventas (id_cliente,  id_empleado, fecha_venta,total_venta) VALUES (?, ?, ?,?)",
+      [id_cliente, id_empleado, fecha_venta, total_venta]
     );
-    res.json({ 
+    res.json({
       id_venta: result.insertId,
-      id_cliente, 
-     id_empleado,
-     fecha_venta,
-     total_venta
+      id_cliente,
+      id_empleado,
+      fecha_venta,
+      total_venta,
     });
   } catch (error) {
     return res.status(500).json({
       mensaje: "Ha ocurrido un error al crear la venta.",
       error: error,
     });
-  } 
+  }
 };
 
 //Controlador de eliminación de datos de ventas
 export const eliminarVenta = async (req, res) => {
   try {
     const id_venta = req.params.id_venta;
-    const [result] = await pool.query("DELETE FROM Ventas WHERE id_venta = ?", [id_venta]
-    );
+    const [result] = await pool.query("DELETE FROM Ventas WHERE id_venta = ?", [
+      id_venta,
+    ]);
     if (result.affectedRows === 0) {
       return res.status(404).json({
         mensaje: `Error al eliminar los datos. ID ${id_venta} no encontrado.`,
@@ -76,9 +79,12 @@ export const eliminarVenta = async (req, res) => {
 // Actualizar una venta parcialmente (PATCH)
 export const actualizarVentaPatch = async (req, res) => {
   try {
-    const {id_venta} = req.params;
+    const { id_venta } = req.params;
     const datos = req.body;
-    const [result] = await pool.query("UPDATE Ventas SET ? WHERE id_venta = ?", [datos, id_venta]);
+    const [result] = await pool.query(
+      "UPDATE Ventas SET ? WHERE id_venta = ?",
+      [datos, id_venta]
+    );
 
     if (result.affectedRows === 0) {
       return res.status(404).json({
@@ -92,10 +98,6 @@ export const actualizarVentaPatch = async (req, res) => {
     return res.status(500).json({
       mensaje: "Ha ocurrido un error al actualizar la venta.",
       error: error,
-    }); 
+    });
   }
-}
-
-    
-
-  
+};

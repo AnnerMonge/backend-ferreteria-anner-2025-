@@ -39,14 +39,14 @@ export const registrardetallesventas = async (req, res) => {
     const { id_venta, id_producto, cantidad, precio_unitario } = req.body;
     const [result] = await pool.query(
       "INSERT INTO detalles_ventas (id_venta, id_producto, cantidad, precio_unitario) VALUES (?, ?, ?, ?)",
-      [id_venta, id_producto, cantidad, precio_unitario]  
+      [id_venta, id_producto, cantidad, precio_unitario]
     );
     res.json({
       id_detalle_venta: result.insertId,
       id_venta,
       id_producto,
       cantidad,
-      precio_unitario
+      precio_unitario,
     });
   } catch (error) {
     return res.status(500).json({
@@ -60,18 +60,20 @@ export const registrardetallesventas = async (req, res) => {
 export const eliminardetalleventa = async (req, res) => {
   try {
     const id_detalle_venta = req.params.id_detalle_venta;
-    const [result] = await pool.query("DELETE FROM detalles_ventas WHERE id_detalle_venta = ?", [id_detalle_venta]
+    const [result] = await pool.query(
+      "DELETE FROM detalles_ventas WHERE id_detalle_venta = ?",
+      [id_detalle_venta]
     );
     if (result.affectedRows === 0) {
       return res.status(404).json({
         mensaje: `Error al eliminar los datos. ID ${id_detalle_venta} no encontrado.`,
       });
     }
-     //repuesta sin contenido para indicar que la eliminación fue exitosa
+    //repuesta sin contenido para indicar que la eliminación fue exitosa
     res.status(204).send();
   } catch (error) {
     return res.status(500).json({
-      mensaje: "Ha ocurrido un error al eliminar el detalle_venta.", 
+      mensaje: "Ha ocurrido un error al eliminar el detalle_venta.",
       error: error,
     });
   }
@@ -83,20 +85,22 @@ export const actualizarDetalle_VentaPatch = async (req, res) => {
     const datos = req.body;
 
     const [result] = await pool.query(
-      'UPDATE detalles_ventas SET ? WHERE id_detalle_venta = ?',[datos, id_detalle_venta ]
+      "UPDATE detalles_ventas SET ? WHERE id_detalle_venta = ?",
+      [datos, id_detalle_venta]
     );
     if (result.affectedRows === 0) {
       return res.status(404).json({
-        mensaje:' detalle_venta con . ID ${id_detalle_venta} no encontrado.'
+        mensaje: " detalle_venta con . ID ${id_detalle_venta} no encontrado.",
       });
     }
     res.status(200).json({
-      mensaje: 'detalle_venta con ID ${id_detalle_venta} actualizada correctamente.'
+      mensaje:
+        "detalle_venta con ID ${id_detalle_venta} actualizada correctamente.",
     });
   } catch (error) {
     res.status(500).json({
-      mensaje: 'Ha ocurrido un error al actualizar el detalle_venta.',
-      error: error
+      mensaje: "Ha ocurrido un error al actualizar el detalle_venta.",
+      error: error,
     });
   }
 };

@@ -17,7 +17,9 @@ export const obtenerUsuarios = async (req, res) => {
 export const obtenerUsuario = async (req, res) => {
   try {
     const id_usuario = req.params.id_usuario;
-    const [result] = await pool.query("SELECT * FROM Usuarios WHERE id_usuario= ?",[id_usuario]
+    const [result] = await pool.query(
+      "SELECT * FROM Usuarios WHERE id_usuario= ?",
+      [id_usuario]
     );
     if (result.length <= 0) {
       return res.status(404).json({
@@ -35,15 +37,15 @@ export const obtenerUsuario = async (req, res) => {
 // Crear un nuevo Usuario
 export const registrarUsuario = async (req, res) => {
   try {
-    const { usuario,  contraseña } = req.body;
+    const { usuario, contraseña } = req.body;
     const [result] = await pool.query(
       "INSERT INTO Usuarios (usuario,  contraseña) VALUES (?, ?)",
-      [usuario,  contraseña]
+      [usuario, contraseña]
     );
     res.json({
       id_usuario: result.insertId,
-      usuario, 
-     contraseña
+      usuario,
+      contraseña,
     });
   } catch (error) {
     return res.status(500).json({
@@ -56,15 +58,16 @@ export const registrarUsuario = async (req, res) => {
 export const eliminarUsuario = async (req, res) => {
   try {
     const id_usuario = req.params.id_usuario;
-    const [result] = await pool.query("DELETE FROM Usuarios WHERE id_usuario = ?", [
-      id_usuario,
-    ]);
+    const [result] = await pool.query(
+      "DELETE FROM Usuarios WHERE id_usuario = ?",
+      [id_usuario]
+    );
     if (result.affectedRows === 0) {
       return res.status(404).json({
         mensaje: `Error al eliminar los datos. ID ${id_usuario} no encontrado.`,
       });
     }
-       //repuesta sin contenido para indicar que la eliminación fue exitosa
+    //repuesta sin contenido para indicar que la eliminación fue exitosa
     res.status(204).send();
   } catch (error) {
     return res.status(500).json({
@@ -74,10 +77,39 @@ export const eliminarUsuario = async (req, res) => {
   }
 };
 
+// Verificar usuario para login
+export const verificarUsuario = async (req, res) => {
+  try {
+    const { usuario, contrasena } = req.body;
+
+    if (!usuario || !contrasena) {
+      return res.status(400).json({
+        mensaje: "Debe enviar usuario y contrasena.",
+      });
+    }
+
+    const [result] = await pool.query(
+      "SELECT * FROM Usuarios WHERE usuario = ? AND contraseña = ?",
+      [usuario, contrasena]
+    );
+
+    if (result.length > 0) {
+      return res.json(true); // Usuario correcto
+    } else {
+      return res.json(false); // Datos incorrectos
+    }
+  } catch (error) {
+    return res.status(500).json({
+      mensaje: "Error al verificar el usuario.",
+      error,
+    });
+  }
+};
+
 // Actualizar un Usuario parcialmente (PATCH)
 export const actualizarUsuarioPatch = async (req, res) => {
   try {
-    const {id_usuario} = req.params;
+    const { id_usuario } = req.params;
     const datos = req.body;
     const [result] = await pool.query(
       "UPDATE Usuarios SET ? WHERE id_usuario = ?",
@@ -96,6 +128,6 @@ export const actualizarUsuarioPatch = async (req, res) => {
     return res.status(500).json({
       mensaje: "Ha ocurrido un error al actualizar el Usuario.",
       error: error,
-    }); 
+    });
   }
-}
+};
